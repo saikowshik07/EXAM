@@ -1,0 +1,78 @@
+% Facts: Gender of individuals
+female(pam).
+female(liz).
+female(ann).
+female(pat).
+
+male(tom).
+male(bob).
+male(jim).
+
+% Facts: Parent-child relationships
+parent(pam, bob).
+parent(tom, bob).
+parent(tom, liz).
+parent(bob, ann).
+parent(bob, pat).
+parent(liz, jim).
+
+% Define mother relation
+mother(M, C) :-
+    female(M),
+    parent(M, C).
+
+% Define father relation
+father(F, C) :-
+    male(F),
+    parent(F, C).
+
+% Define grandfather relation
+grandfather(GF, C) :-
+    male(GF),
+    parent(GF, P),
+    parent(P, C).
+
+% Define grandmother relation
+grandmother(GM, C) :-
+    female(GM),
+    parent(GM, P),
+    parent(P, C).
+
+% Define sister relation
+sister(S, X) :-
+    female(S),
+    parent(P, S),
+    parent(P, X),
+    S \= X.
+
+% Define brother relation
+brother(B, X) :-
+    male(B),
+    parent(P, B),
+    parent(P, X),
+    B \= X.
+
+% Queries example:
+% Input:
+% ?- mother(pam, bob).
+% Output: true
+
+% Input:
+% ?- father(tom, liz).
+% Output: true
+
+% Input:
+% ?- grandfather(tom, ann).
+% Output: true
+
+% Input:
+% ?- grandmother(pam, pat).
+% Output: false
+
+% Input:
+% ?- sister(liz, bob).
+% Output: false
+
+% Input:
+% ?- brother(jim, liz).
+% Output: false
